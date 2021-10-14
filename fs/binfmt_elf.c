@@ -1152,6 +1152,15 @@ out_free_interp:
 				load_addr += load_bias;
 				reloc_func_desc = load_bias;
 			}
+		} else if (elf_ex->e_type == ET_EXEC &&
+			   (elf_ppnt->p_vaddr >= elf_ppnt->p_offset) &&
+			   (elf_ppnt->p_vaddr - elf_ppnt->p_offset) <
+				   load_addr) {
+			printk("%s:%d elf_ppnt->p_vaddr - elf_ppnt->p_offset=%llx load_addr=%lx bprm->filename=%s\n",
+			       __FILE__, __LINE__,
+			       elf_ppnt->p_vaddr - elf_ppnt->p_offset,
+			       load_addr, bprm->filename);
+			load_addr = (elf_ppnt->p_vaddr - elf_ppnt->p_offset);
 		}
 		k = elf_ppnt->p_vaddr;
 		if ((elf_ppnt->p_flags & PF_X) && k < start_code)
