@@ -1145,7 +1145,7 @@ out_free_interp:
 
 		if (!load_addr_set ||
 		    (elf_ex->e_type == ET_EXEC && elf_ppnt->p_vaddr >= elf_ppnt->p_offset &&
-		     load_addr < elf_ppnt->p_vaddr - elf_ppnt->p_offset)) {
+		     elf_ppnt->p_vaddr - elf_ppnt->p_offset < load_addr)) {
 			load_addr_set = 1;
 			load_addr = (elf_ppnt->p_vaddr - elf_ppnt->p_offset);
 			if (elf_ex->e_type == ET_DYN) {
