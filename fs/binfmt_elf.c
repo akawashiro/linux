@@ -1143,9 +1143,6 @@ out_free_interp:
 			goto out_free_dentry;
 		}
 
-		// if (!load_addr_set ||
-		    // (elf_ex->e_type == ET_EXEC && elf_ppnt->p_vaddr >= elf_ppnt->p_offset &&
-		     // elf_ppnt->p_vaddr - elf_ppnt->p_offset < load_addr)) {
 		if (!load_addr_set){
 			load_addr_set = 1;
 			load_addr = (elf_ppnt->p_vaddr - elf_ppnt->p_offset);
@@ -1160,25 +1157,7 @@ out_free_interp:
         if(elf_ppnt->p_offset <= elf_ex->e_phoff && elf_ex->e_phoff < elf_ppnt->p_offset + elf_ppnt->p_filesz){
             phdr_addr = elf_ex->e_phoff - elf_ppnt->p_offset + elf_ppnt->p_vaddr;
         }
-	// if (!load_addr_set) {
-		// 	load_addr_set = 1;
-		// 	load_addr = (elf_ppnt->p_vaddr - elf_ppnt->p_offset);
-		// 	if (elf_ex->e_type == ET_DYN) {
-		// 		load_bias += error -
-		// 		             ELF_PAGESTART(load_bias + vaddr);
-		// 		load_addr += load_bias;
-		// 		reloc_func_desc = load_bias;
-		// 	}
-		// } else if (elf_ex->e_type == ET_EXEC &&
-		// 	   (elf_ppnt->p_vaddr >= elf_ppnt->p_offset) &&
-		// 	   (elf_ppnt->p_vaddr - elf_ppnt->p_offset) <
-		// 		   load_addr) {
-		// 	printk("%s:%d elf_ppnt->p_vaddr - elf_ppnt->p_offset=%llx load_addr=%lx bprm->filename=%s\n",
-		// 	       __FILE__, __LINE__,
-		// 	       elf_ppnt->p_vaddr - elf_ppnt->p_offset,
-		// 	       load_addr, bprm->filename);
-		// 	load_addr = (elf_ppnt->p_vaddr - elf_ppnt->p_offset);
-		// }
+
 		k = elf_ppnt->p_vaddr;
 		if ((elf_ppnt->p_flags & PF_X) && k < start_code)
 			start_code = k;
