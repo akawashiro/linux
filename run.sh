@@ -1,6 +1,6 @@
 #! /bin/bash -eux
 
-git add -u && git commit -m \"WIP\" && git push origin `git rev-parse --abbrev-ref HEAD`
+git pull
 LOCALVERSION=-dev-load-addr make CC="ccache gcc" -j4
 sudo make modules_install
 sudo make install
