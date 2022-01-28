@@ -464,6 +464,12 @@ static struct elf_phdr *load_elf_phdrs(const struct elfhdr *elf_ex,
 	unsigned int size;
 
 	/*
+	 * The ELF spec says e_phoff is 0 if there's no program header table.
+	*/
+	if (elf_ex->e_phoff == 0)
+		goto out;
+
+	/*
 	 * If the size of this structure has changed, then punt, since
 	 * we will be doing the wrong thing.
 	 */
