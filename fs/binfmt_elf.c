@@ -883,17 +883,22 @@ static int load_elf_binary(struct linux_binprm *bprm)
 
 		retval = -ENOMEM;
 		elf_interpreter = kmalloc(elf_ppnt->p_filesz, GFP_KERNEL);
+		kprintf("elf_ppnt->p_filesz = %d elf_interpreter = %s\n", elf_ppnt->p_filesz, elf_interpreter);
 		if (!elf_interpreter)
 			goto out_free_ph;
 
 		retval = elf_read(bprm->file, elf_interpreter, elf_ppnt->p_filesz,
 				  elf_ppnt->p_offset);
-		if (retval < 0)
+		if (retval < 0){
+			kprintf("elf_read failed\n");
 			goto out_free_interp;
+		}
 		/* make sure path is NULL terminated */
 		retval = -ENOEXEC;
-		if (elf_interpreter[elf_ppnt->p_filesz - 1] != '\0')
+		if (elf_interpreter[elf_ppnt->p_filesz - 1] != '\0'){
+			kpritnf("elf_interpreter[elf_ppnt->p_filesz - 1] failed\n");
 			goto out_free_interp;
+		}
 
 		interpreter = open_exec(elf_interpreter);
 		kfree(elf_interpreter);
