@@ -883,7 +883,7 @@ static int load_elf_binary(struct linux_binprm *bprm)
 
 		retval = -ENOMEM;
 		elf_interpreter = kmalloc(elf_ppnt->p_filesz, GFP_KERNEL);
-		printk("%s:%d elf_ppnt->p_filesz = %d elf_interpreter = %s\n", __FILE__, __LINE__, elf_ppnt->p_filesz, elf_interpreter);
+		printk("%s:%d elf_ppnt->p_filesz = %lld elf_interpreter = %s\n", __FILE__, __LINE__, elf_ppnt->p_filesz, elf_interpreter);
 		if (!elf_interpreter)
 			goto out_free_ph;
 
@@ -896,7 +896,7 @@ static int load_elf_binary(struct linux_binprm *bprm)
 		/* make sure path is NULL terminated */
 		retval = -ENOEXEC;
 		if (elf_interpreter[elf_ppnt->p_filesz - 1] != '\0'){
-			printk("%s:%d elf_interpreter[elf_ppnt->p_filesz - 1] failed elf_ppnt->p_filesz=%d elf_interpreter[elf_ppnt->p_filesz - 1]=%d\n", __FILE__, __LINE__, elf_ppnt->p_filesz, elf_interpreter[elf_ppnt->p_filesz - 1]);
+			printk("%s:%d elf_interpreter[elf_ppnt->p_filesz - 1] failed elf_ppnt->p_filesz=%lld elf_interpreter[elf_ppnt->p_filesz - 1]=%d\n", __FILE__, __LINE__, elf_ppnt->p_filesz, elf_interpreter[elf_ppnt->p_filesz - 1]);
 			goto out_free_interp;
 		}
 
