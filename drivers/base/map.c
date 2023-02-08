@@ -111,6 +111,8 @@ retry:
 			break;
 		if (!try_module_get(p->owner))
 			continue;
+
+		printk("%s:%d MAJOR(dev)=%u MINOR(dev)=%u\n", __FILE__, __LINE__, MAJOR(dev), MINOR(dev));
 		owner = p->owner;
 		data = p->data;
 		probe = p->get;
