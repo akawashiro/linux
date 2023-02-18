@@ -1296,7 +1296,7 @@ int __init_or_module do_one_initcall(initcall_t fn)
 	char msgbuf[64];
 	int ret;
 
-    printk("do_one_initcall\n");
+    printk("do_one_initcall start\n");
 
 	if (initcall_blacklisted(fn))
 		return -EPERM;
@@ -1318,6 +1318,7 @@ int __init_or_module do_one_initcall(initcall_t fn)
 	WARN(msgbuf[0], "initcall %pS returned with %s\n", fn, msgbuf);
 
 	add_latent_entropy();
+    printk("do_one_initcall end\n");
 	return ret;
 }
 
