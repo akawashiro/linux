@@ -1375,6 +1375,9 @@ static int apply_relocations(struct module *mod, const struct load_info *info)
 		else if (info->sechdrs[i].sh_type == SHT_RELA)
 			err = apply_relocate_add(info->sechdrs, info->strtab,
 						 info->index.sym, i, mod);
+
+
+        printk("%s:%d mod->init = %p i = %d\n", __FILE__, __LINE__, mod->init, i);
 		if (err < 0)
 			break;
 	}
@@ -2798,11 +2801,13 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	if (err < 0)
 		goto free_modinfo;
 
+    /* mod->init is not set yet */
     printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	err = apply_relocations(mod, info);
 	if (err < 0)
 		goto free_modinfo;
 
+    /* mod->init is set above */
     printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	err = post_relocation(mod, info);
 	if (err < 0)
