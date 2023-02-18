@@ -273,6 +273,8 @@ int __register_chrdev(unsigned int major, unsigned int baseminor,
 	struct cdev *cdev;
 	int err = -ENOMEM;
 
+    printk("__register_chrdev major: %d\n", major);
+
 	cd = __register_chrdev_region(major, baseminor, count, name);
 	if (IS_ERR(cd))
 		return PTR_ERR(cd);
@@ -486,6 +488,7 @@ int cdev_add(struct cdev *p, dev_t dev, unsigned count)
 	if (WARN_ON(dev == WHITEOUT_DEV))
 		return -EBUSY;
 
+    printk("cdev_add major: %d minor: %d\n", MAJOR(dev), MINOR(dev));
 	error = kobj_map(cdev_map, dev, count, NULL,
 			 exact_match, exact_lock, p);
 	if (error)
