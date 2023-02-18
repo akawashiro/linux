@@ -2742,12 +2742,14 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	}
 
 	audit_log_kern_module(mod->name);
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 
 	/* Reserve our place in the list. */
 	err = add_unformed_module(mod);
 	if (err)
 		goto free_module;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 #ifdef CONFIG_MODULE_SIG
 	mod->sig_ok = info->sig_ok;
 	if (!mod->sig_ok) {
@@ -2758,11 +2760,13 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	}
 #endif
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* To avoid stressing percpu allocator, do this once we're unique. */
 	err = percpu_modalloc(mod, info);
 	if (err)
 		goto unlink_mod;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Now module is in final location, initialize linked lists, etc. */
 	err = module_unload_init(mod);
 	if (err)
@@ -2770,6 +2774,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
 
 	init_param_lock(mod);
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/*
 	 * Now we've got everything in the final locations, we can
 	 * find optional sections.
@@ -2782,9 +2787,11 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	if (err)
 		goto free_unload;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Set up MODINFO_ATTR fields */
 	setup_modinfo(mod, info);
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Fix up syms, so that st_value is a pointer to location. */
 	err = simplify_symbols(mod, info);
 	if (err < 0)
@@ -2847,6 +2854,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
 			goto sysfs_cleanup;
 	}
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Get rid of temporary copy. */
 	free_copy(info, flags);
     printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
