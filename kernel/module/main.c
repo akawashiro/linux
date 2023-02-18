@@ -2395,6 +2395,7 @@ static bool finished_loading(const char *name)
 /* Call module constructors. */
 static void do_mod_ctors(struct module *mod)
 {
+    printk("do_mod_ctors\n");
 #ifdef CONFIG_CONSTRUCTORS
 	unsigned long i;
 
