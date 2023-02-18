@@ -2791,22 +2791,27 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	/* Set up MODINFO_ATTR fields */
 	setup_modinfo(mod, info);
 
+    /* mod->init is not set yet */
     printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Fix up syms, so that st_value is a pointer to location. */
 	err = simplify_symbols(mod, info);
 	if (err < 0)
 		goto free_modinfo;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	err = apply_relocations(mod, info);
 	if (err < 0)
 		goto free_modinfo;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	err = post_relocation(mod, info);
 	if (err < 0)
 		goto free_modinfo;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	flush_module_icache(mod);
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Now copy in args */
 	mod->args = strndup_user(uargs, ~0UL >> 1);
 	if (IS_ERR(mod->args)) {
@@ -2814,23 +2819,29 @@ static int load_module(struct load_info *info, const char __user *uargs,
 		goto free_arch_cleanup;
 	}
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	init_build_id(mod, info);
 	dynamic_debug_setup(mod, &info->dyndbg);
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
 	ftrace_module_init(mod);
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Finally it's fully formed, ready to start executing. */
 	err = complete_formation(mod, info);
 	if (err)
 		goto ddebug_cleanup;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	err = prepare_coming_module(mod);
 	if (err)
 		goto bug_cleanup;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	mod->async_probe_requested = async_probe;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Module is ready to execute: parsing args may do that. */
 	after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
 				  -32768, 32767, mod,
@@ -2843,6 +2854,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
 		       mod->name, after_dashes);
 	}
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	/* Link in to sysfs. */
 	err = mod_sysfs_setup(mod, info, mod->kp, mod->num_kp);
 	if (err < 0)
