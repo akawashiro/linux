@@ -2333,6 +2333,7 @@ static struct module *layout_and_allocate(struct load_info *info, int flags)
 
 	/* Module has been copied to its final place now: return it. */
 	mod = (void *)info->sechdrs[info->index.mod].sh_addr;
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	kmemleak_load_module(mod, info);
 	return mod;
 }
@@ -2733,6 +2734,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
 
 	/* Figure out module layout, and allocate all the memory. */
 	mod = layout_and_allocate(info, flags);
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
+
 	if (IS_ERR(mod)) {
 		err = PTR_ERR(mod);
 		goto free_copy;
@@ -2846,10 +2849,12 @@ static int load_module(struct load_info *info, const char __user *uargs,
 
 	/* Get rid of temporary copy. */
 	free_copy(info, flags);
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 
 	/* Done! */
 	trace_module_load(mod);
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, mod->init);
 	return do_init_module(mod);
 
  sysfs_cleanup:
