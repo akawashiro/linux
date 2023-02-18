@@ -2676,6 +2676,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	long err = 0;
 	char *after_dashes;
 
+    printk("load_module\n");
 	/*
 	 * Do the signature check (if any) first. All that
 	 * the signature check needs is info->len, it does

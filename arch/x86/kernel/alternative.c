@@ -475,6 +475,7 @@ void __init_or_module noinline apply_retpolines(s32 *start, s32 *end)
 {
 	s32 *s;
 
+    printk("apply_retpolines\n");
 	for (s = start; s < end; s++) {
 		void *addr = (void *)s + *s;
 		struct insn insn;
