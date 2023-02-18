@@ -1296,6 +1296,7 @@ int __init_or_module do_one_initcall(initcall_t fn)
 	char msgbuf[64];
 	int ret;
 
+    dump_stack();
     printk("do_one_initcall start\n");
 
 	if (initcall_blacklisted(fn))

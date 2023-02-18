@@ -2443,6 +2443,8 @@ static noinline int do_init_module(struct module *mod)
 	int ret = 0;
 	struct mod_initfree *freeinit;
 
+    printk("do_init_module\n");
+
 	freeinit = kmalloc(sizeof(*freeinit), GFP_KERNEL);
 	if (!freeinit) {
 		ret = -ENOMEM;
