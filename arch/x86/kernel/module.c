@@ -229,6 +229,7 @@ int apply_relocate_add(Elf64_Shdr *sechdrs,
 	bool early = me->state == MODULE_STATE_UNFORMED;
 	void *(*write)(void *, const void *, size_t) = memcpy;
 
+    printk("%s:%d mod->init = %p\n", __FILE__, __LINE__, me->init);
 	if (!early) {
 		write = text_poke;
 		mutex_lock(&text_mutex);
